@@ -86,8 +86,11 @@ Deleting file my_database (conflicted copy 2024-03-09).kdbx without confirmation
 ---
 
 ### Screenshot Example
-*(Insert screenshot here showing an example of conflicted files and how the script resolves them.)*
+![enable sync to relative folder](https://github.com/user-attachments/assets/386b0698-4a62-4f4b-8eed-ff01d7491cb3)
+
+![run the script in the folder](https://github.com/user-attachments/assets/458eda21-b8a7-4237-91da-d985d784c32d)
+
 
 ## License
-This script is provided "as-is". Use at your own discretion!
-
+This script is actually provided "as-is". Use at your own discretion!
+PR and forks are welcome
