@@ -25,6 +25,22 @@ This script automates the resolution process by:
 4. If modifications exist, it prompts the user to confirm merging before deletion.
 5. The process repeats until all conflicts are resolved.
 
+## Installation
+
+You can download and install the script using either `curl` or `wget`:
+
+### Using `curl`:
+```bash
+curl -o resolve_keepass_conflicts.sh https://raw.githubusercontent.com/tomfun/keepassxc-nextcloud-autoresolve/refs/heads/main/resolve.sh
+chmod +x resolve_keepass_conflicts.sh
+```
+
+### Using `wget`:
+```bash
+wget -O resolve_keepass_conflicts.sh https://raw.githubusercontent.com/tomfun/keepassxc-nextcloud-autoresolve/refs/heads/main/resolve.sh
+chmod +x resolve_keepass_conflicts.sh
+```
+
 ## Usage
 
 Run the script with the KeePass database file as an argument:
@@ -70,11 +86,8 @@ Deleting file my_database (conflicted copy 2024-03-09).kdbx without confirmation
 ---
 
 ### Screenshot Example
-![enable sync to relative folder](https://github.com/user-attachments/assets/386b0698-4a62-4f4b-8eed-ff01d7491cb3)
-
-![run the script in the folder](https://github.com/user-attachments/assets/458eda21-b8a7-4237-91da-d985d784c32d)
-
+*(Insert screenshot here showing an example of conflicted files and how the script resolves them.)*
 
 ## License
-This script is actually provided "as-is". Use at your own discretion!
-PR and forks are welcome
+This script is provided "as-is". Use at your own discretion!
+
