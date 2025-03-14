@@ -30,8 +30,8 @@ if [[ -z "$KEE_PASSWORD" ]]; then
     echo
 fi
 echo 'dry run. show changes:'
-DRY_RUN_OUTPUT=$(echo "$KEE_PASSWORD" | keepassxc-cli merge --dry-run --same-credentials "$FILE" "$CONFLICTED" \
-    | tee "$DIR_NAME/last_resolve.txt" | tee /dev/tty)
+DRY_RUN_OUTPUT=$(echo "$KEE_PASSWORD" | LC_ALL=en_US.UTF-8 keepassxc-cli merge --dry-run --same-credentials "$FILE" "$CONFLICTED" \
+    | tee -a "$DIR_NAME/last_resolve.txt" | tee /dev/tty)
 
 { echo "keepassxc-cli merge --dry-run --same-credentials \"$FILE\" \"$CONFLICTED\"" && echo "$DRY_RUN_OUTPUT"; } > "$DIR_NAME/last_resolve.txt"
 
