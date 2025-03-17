@@ -89,6 +89,9 @@ Deleting file my_database (conflicted copy 2024-03-09).kdbx without confirmation
 ![enable sync to relative folder](https://github.com/user-attachments/assets/386b0698-4a62-4f4b-8eed-ff01d7491cb3)
 
 ![run the script in the folder](https://github.com/user-attachments/assets/458eda21-b8a7-4237-91da-d985d784c32d)
+![run the script in action](https://github.com/user-attachments/assets/7a4feb83-b619-45b2-9ef6-8424c850c393)
+![run the script in action after](https://github.com/user-attachments/assets/58205801-3fe6-4ccd-bf82-9e53b17efefc)
+
 
 
 ## License
