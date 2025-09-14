@@ -29,20 +29,54 @@ if [[ -z "$KEE_PASSWORD" ]]; then
     read -s -p "Enter KeePass password (to reuse it): " KEE_PASSWORD
     echo
 fi
+
+# check language
+INI="${HOME}/.config/keepassxc/keepassxc.ini"
+ORIGINAL_SETTINGS_LANG=''
+SETTINGS_LANG_PATCHED=''
+get_current_lang() {
+  awk -F= '/^[[:space:]]*Language[[:space:]]*=/ {gsub(/[[:space:]]/, "", $2); print $2; exit}' "$INI" || true
+}
+set_lang() {
+  local settings_language="$1"
+  sed -i "s/^[[:space:]]*Language[[:space:]]*=.*/Language=${settings_language}/" "$INI"
+}
+if [[ -f "$INI" ]]; then
+  ORIGINAL_SETTINGS_LANG="$(get_current_lang)"
+    if grep -q '^[[:space:]]*Language[[:space:]]*=' "$INI"; then
+      ORIGINAL_SETTINGS_LANG="$(get_current_lang)"
+      if [[ "$ORIGINAL_SETTINGS_LANG" != "en" ]]; then
+        echo 'need to patch keepassxc settings: Language=en'
+        set_lang 'en'
+        SETTINGS_LANG_PATCHED='1'
+      fi
+    fi
+fi
+
 echo 'dry run. show changes:'
-DRY_RUN_OUTPUT=$(echo "$KEE_PASSWORD" | LC_ALL=en_US.UTF-8 keepassxc-cli merge --dry-run --same-credentials "$FILE" "$CONFLICTED" \
+echo "keepassxc-cli merge --dry-run --same-credentials \"$FILE\" \"$CONFLICTED\"" >> "$DIR_NAME/last_resolve.txt"
+DRY_RUN_OUTPUT=$(echo "$KEE_PASSWORD" | LANGUAGE=en LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 keepassxc-cli merge --dry-run --same-credentials "$FILE" "$CONFLICTED" \
     | tee -a "$DIR_NAME/last_resolve.txt" | tee /dev/tty)
 
-{ echo "keepassxc-cli merge --dry-run --same-credentials \"$FILE\" \"$CONFLICTED\"" && echo "$DRY_RUN_OUTPUT"; } > "$DIR_NAME/last_resolve.txt"
+if [[ "$SETTINGS_LANG_PATCHED" == "1" ]]; then
+  set_lang "$ORIGINAL_SETTINGS_LANG"
+fi
 
 echo "$DRY_RUN_OUTPUT" | grep 'Database was not modified by merge operation' \
     && echo -e '        ^\033[1mwas not modified\033[0m^'
+DB_NOT_MODIFIED=$?
+echo "$DRY_RUN_OUTPUT" | grep 'lose data\|data lose'
+DB_DATA_LOSE=$?
 if [[ $? -eq 0 ]]; then
     echo -en "deleting file \033[1m"
     echo -n "$CONFLICTED"
     echo -e "\033[0m without \033[1;4mconfirmation\033[0m"
     YES='SKIP'
-    sleep 2
+    if [[ $DB_DATA_LOSE -eq 0 ]]; then
+      echo -e 'potential data lose according to try run. anyway file will be deleted'
+      echo '  you can press ctrl+c now to abort. You have 10 sec'
+      sleep 10
+    fi
     rm "$CONFLICTED"
     OK=$?
 else
