@@ -14,7 +14,7 @@ EXT="${FILE##*.}"
 FILE_PATTERN="${BASE_NAME}*.${EXT}"
 FILE_PATTERN_RE="^${BASE_NAME}.*\.${EXT}$"
 
-CONFLICTED=$(ls -1 "$DIR_NAME" | grep -i 'conflicted copy' | grep -E "$FILE_PATTERN_RE" | sort --reverse | head -n 1)
+CONFLICTED=$(ls -1 "$DIR_NAME" | grep -i 'conflicted copy\|-safeBackup-' | grep -E "$FILE_PATTERN_RE" | sort --reverse | head -n 1)
 
 if [[ -z "$CONFLICTED" ]]; then
     echo -ne "No $CONFLICTED files among: $FILE_PATTERN\n  "
